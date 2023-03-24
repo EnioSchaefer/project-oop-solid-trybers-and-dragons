@@ -1,7 +1,7 @@
 import { EnergyType } from '../Energy';
-import Archetypes from './Archetypes';
+import Archetype from './Archetype';
 
-export default class Warrior extends Archetypes {
+export default class Warrior extends Archetype {
   private static _createdInstances: number;
   private _energyType: EnergyType;
 
