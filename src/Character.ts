@@ -107,7 +107,7 @@ export default class Character implements Fighter {
     }
   }
 
-  special(/* enemy: Fighter */): void {
+  special(/* enemy: Fighter | SimpleFighter */): void {
     console.log(`IMPLEMENT SPECIAL ATTACK FOR ${this._name}`);
   }
 }
