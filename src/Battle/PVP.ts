@@ -23,8 +23,8 @@ export default class PVP extends Battle {
 
   private pickFighter(): void {
     const result = getRandomInt(1, 11) < 5;
-    if (result) this._fighter01.attack(this._fighter02);
-    if (result) this._fighter02.attack(this._fighter01);
+    if (result) return this._fighter01.attack(this._fighter02);
+    return this._fighter02.attack(this._fighter01);
   }
   
   fight(): number {
