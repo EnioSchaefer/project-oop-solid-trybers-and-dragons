@@ -25,23 +25,17 @@ export default class PVE extends Battle {
     return this._monsters;
   }
 
-  private pickMonsterPos(): number {
-    const monstersAlive = this._monsters
-      .filter((monster) => monster.lifePoints !== -1);
-    const min = 0;
-    const max = monstersAlive.length + 1;
-    const monsterPos = getRandomInt(min, max);
-    return monsterPos;
-  }
-
   private pickFighter(): void {
-    const playerAttack = getRandomInt(1, 3) === 1;
-    const monsterPos = this.pickMonsterPos();
-    
+    const randomNum = getRandomInt(1, 4);
+    const playerAttack = randomNum === 1 || randomNum === 2;
+    const monsterPos = this._monsters
+      .findIndex((monster) => monster.lifePoints !== -1);
+
     if (playerAttack) { 
-      return this._charFighter.attack(this._monsters[monsterPos]); 
+      return this._charFighter.attack(this._monsters[monsterPos]);
     }
-    return this._monsters[monsterPos].attack(this._charFighter);
+    return this._monsters
+      .forEach((monster) => monster.attack(this._charFighter));
   }
 
   fight(): number {

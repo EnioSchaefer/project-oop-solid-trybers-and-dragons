@@ -16,19 +16,19 @@ export default class Character implements Fighter {
   private _energy: Energy;
 
   constructor(name: string) {
-    const standardRace = this.createStandardRace();
-    const standardArchetype = this.createStandardArchetype();
     this._name = name;
-    this._dexterity = getRandomInt(1, 10);
+    this._dexterity = getRandomInt(1, 11);
+    const standardRace = new Elf(this._name, this._dexterity);
+    const standardArchetype = new Mage(this._name);
     this._race = standardRace;
     this._archetype = standardArchetype;
     this._maxLifePoints = standardRace.maxLifePoints / 2;
-    this._lifePoints = 0;
-    this._strength = getRandomInt(1, 10);
-    this._defense = getRandomInt(1, 10);
+    this._lifePoints = standardRace.maxLifePoints / 2;
+    this._strength = getRandomInt(1, 11);
+    this._defense = getRandomInt(1, 11);
     this._energy = { 
       type_: standardArchetype.energyType,
-      amount: getRandomInt(1, 10) };
+      amount: getRandomInt(1, 11) };
   }
 
   get defense(): number {
@@ -63,15 +63,7 @@ export default class Character implements Fighter {
     return { ...this._energy };
   }
 
-  createStandardRace(): Race {
-    return new Elf(this._name, this._dexterity);
-  }
-
-  createStandardArchetype(): Archetype {
-    return new Mage(this._name);
-  }
-
-  receiveDamage(attackPoints: number): number {
+  public receiveDamage(attackPoints: number): number {
     const damage = attackPoints - this._defense;
     let currLifePoints = this._lifePoints;
 
@@ -84,30 +76,27 @@ export default class Character implements Fighter {
     return currLifePoints;
   }
   
-  attack(enemy: Fighter | SimpleFighter): void {
+  public attack(enemy: Fighter | SimpleFighter): void {
     enemy.receiveDamage(this._strength);
   }
 
-  levelUp(): void {
-    this._maxLifePoints += getRandomInt(1, 10);
-    this._lifePoints += getRandomInt(1, 10);
-    this._strength += getRandomInt(1, 10);
-    this._dexterity += getRandomInt(1, 10);
-    this._defense += getRandomInt(1, 10);
+  public levelUp(): void {
+    this._maxLifePoints += getRandomInt(1, 11);
+    this._strength += getRandomInt(1, 11);
+    this._dexterity += getRandomInt(1, 11);
+    this._defense += getRandomInt(1, 11);
     this._energy.amount = 10;
-
+    
     const { maxLifePoints } = this._race;
-
+    
     if (this._maxLifePoints > maxLifePoints) {
       this._maxLifePoints = maxLifePoints; 
     }
 
-    if (this._lifePoints > maxLifePoints) {
-      this._lifePoints = maxLifePoints;
-    }
+    this._lifePoints = this._maxLifePoints;
   }
 
-  special(/* enemy: Fighter | SimpleFighter */): void {
+  public special(/* enemy: Fighter | SimpleFighter */): void {
     console.log(`IMPLEMENT SPECIAL ATTACK FOR ${this._name}`);
   }
 }
